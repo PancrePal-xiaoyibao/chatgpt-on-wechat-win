@@ -101,7 +101,7 @@ class lcard(Plugin):
     <showtype>0</showtype>
     <content></content>
     <url>http://c.y.qq.com/v8/playsong.html?songmid={song_id}</url>
-    <dataurl>{dataurl}</dataurl> #sam修改
+    <dataurl>{dataurl}</dataurl> #sam修改1
     <lowurl></lowurl>
     <lowdataurl></lowdataurl>
     <recorditem></recorditem>
