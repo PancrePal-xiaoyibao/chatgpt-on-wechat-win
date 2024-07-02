@@ -77,14 +77,16 @@ class lcard(Plugin):
             return
         elif content.startswith("点歌"):
             keyword = content[2:].replace(" ", "").strip()
-            url = f"https://api.52vmy.cn/api/music/qq?msg={keyword}&n=1"
+            # 该接口失效了 url = f"https://api.52vmy.cn/api/music/qq?msg={keyword}&n=1"
+            url = f"http://api.xtaoa.com/api/musicjx.php?id={keyword}&type=search&media=tencent&limit=3" #新接口，感谢群主分享，sam修改，限制输出3个链接，第一个可能是音乐空链接，所以选择第2个
             resp1 = requests.get(url)
             data = resp1.json()
-            music_parse = data["data"]
-            song_id = music_parse["songid"]
-            singer=music_parse["singer"]
-            song=music_parse["song"]
-            picture=music_parse["picture"]
+            dataurl = data[1]["url"]
+            music_parse = data[1] #提取3个链接，提取第2个，第一个url可能是无效值
+            song_id = music_parse["song_id"]
+            singer=music_parse["author"]
+            song=music_parse["name"]
+            picture=music_parse["cover"]
             if song_id :
                 #以下是xml示例，替换相关参数
                 card_app = f"""<msg>
@@ -99,7 +101,7 @@ class lcard(Plugin):
     <showtype>0</showtype>
     <content></content>
     <url>http://c.y.qq.com/v8/playsong.html?songmid={song_id}</url>
-    <dataurl>http://wx.music.tc.qq.com/C4000015IWzW2NC8oN.m4a?guid=2000000280&amp;vkey=D42EDA8187C9697F31ED99CD9B3635DFBD3DAE29E4E8CF0EA549F2F247464072D17D5516DBBA34BB26D906D69E5E28239E0D557EEC5311BC&amp;uin=0&amp;fromtag=30280&amp;trace=772d0804e4366763</dataurl>
+    <dataurl>{dataurl}</dataurl> #sam修改
     <lowurl></lowurl>
     <lowdataurl></lowdataurl>
     <recorditem></recorditem>
